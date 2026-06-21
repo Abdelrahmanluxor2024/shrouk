@@ -188,23 +188,7 @@
       </button>
     </div>
 
-    <!-- Royal Stack View Overlay (hidden by default) -->
-    <div id="stack-view" class="stack-view" aria-hidden="true">
-      <div class="stack-stage">
-        <!-- Cards rendered by JS -->
-      </div>
-      <div class="stack-controls">
-        <button class="stack-nav-btn" id="stack-prev"><i class="fa-solid fa-chevron-left"></i></button>
-        <div class="stack-counter">
-          <span id="stack-current">1</span> / <span id="stack-total">16</span>
-        </div>
-        <button class="stack-nav-btn" id="stack-next"><i class="fa-solid fa-chevron-right"></i></button>
-      </div>
-      <button class="stack-close-btn" id="stack-close">
-        <i class="fa-solid fa-grid-2"></i>
-        <span data-key="btn-grid-view">Grid View</span>
-      </button>
-    </div>
+
 
     <!-- Gallery Container: Asymmetric Masonry layout on Desktop / Swipeable horizontal carousel on Mobile -->
     <div class="gallery-container" id="gallery-container">
@@ -428,13 +412,7 @@
     </div>
   </footer>
 
-  <!-- Sticky Bottom Share Button (For Mobile Layout) -->
-  <div class="mobile-sticky-bar">
-    <button class="sticky-share-btn" id="mobile-share-btn">
-      <i class="fa-solid fa-share-nodes"></i>
-      <span data-key="btn-share-moment">Share Moment</span>
-    </button>
-  </div>
+
 
   <!-- MODALS -->
   
@@ -507,6 +485,11 @@
         <div class="toast-notification" id="copy-toast" data-key="toast-copied">Link copied to clipboard!</div>
       </div>
     </div>
+  </div>
+
+  <!-- Royal Slideshow View Overlay (hidden by default) -->
+  <div id="slideshow-view" class="slideshow-view" aria-hidden="true">
+    <img id="slideshow-img" src="" alt="Slideshow Image">
   </div>
 
   <!-- JavaScript file -->

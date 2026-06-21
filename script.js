@@ -485,7 +485,9 @@ headerShareBtn.addEventListener('click', (e) => {
   openShareModal();
 });
 
-mobileShareBtn.addEventListener('click', openShareModal);
+if (mobileShareBtn) {
+  mobileShareBtn.addEventListener('click', openShareModal);
+}
 closeShareModalBtn.addEventListener('click', closeShareModal);
 shareModal.querySelector('.modal-bg-blur').addEventListener('click', closeShareModal);
 
@@ -563,168 +565,164 @@ if (musicToggleBtn && bgMusic) {
 }
 
 // --------------------------------------------------------------------------
-// 9. Royal Stack View
+// 9. Royal Fullscreen Slideshow
 // --------------------------------------------------------------------------
-(function initStackView() {
-  const viewModeBtn  = document.getElementById('view-mode-btn');
-  const stackView    = document.getElementById('stack-view');
-  const stackStage   = stackView ? stackView.querySelector('.stack-stage') : null;
-  const stackClose   = document.getElementById('stack-close');
-  const stackPrevBtn = document.getElementById('stack-prev');
-  const stackNextBtn = document.getElementById('stack-next');
-  const stackCurrent = document.getElementById('stack-current');
-  const stackTotal   = document.getElementById('stack-total');
+(function initSlideshowView() {
+  const viewModeBtn   = document.getElementById('view-mode-btn');
+  const slideshowView = document.getElementById('slideshow-view');
+  const slideshowImg  = document.getElementById('slideshow-img');
   const galleryContainer = document.getElementById('gallery-container');
 
-  if (!viewModeBtn || !stackView || !stackStage) return;
+  if (!viewModeBtn || !slideshowView) return;
 
-  // Collect all image sources + titles from the gallery items
+  // Collect all image sources from the gallery items
   const imageData = galleryItems.map(item => ({
-    src:      item.getAttribute('data-src'),
-    catKey:   item.querySelector('.item-category').getAttribute('data-key'),
-    titleKey: item.querySelector('.item-title').getAttribute('data-key'),
+    src: item.getAttribute('data-src')
   }));
 
-  if (stackTotal) stackTotal.textContent = imageData.length;
+  let activeIdx = 0;
+  let timerId = null;
+  let isPaused = false;
 
-  let activeIdx  = 0;
-  let isAnimating = false;
-  let stackCards  = [];
+  function showSlide(index, animate = true) {
+    activeIdx = ((index % imageData.length) + imageData.length) % imageData.length;
 
-  /* ---- Build stack cards ---- */
-  function buildStackCards() {
-    stackStage.innerHTML = '';
-    stackCards = imageData.map((data, i) => {
-      const card = document.createElement('div');
-      card.className = 'stack-card';
-      card.innerHTML = `<img src="${data.src}" alt="" draggable="false">
-        <div class="stack-card-caption">
-          <span class="stack-cat">${translations[currentLang][data.catKey] || ''}</span>
-          <p class="stack-title-text">${translations[currentLang][data.titleKey] || ''}</p>
-        </div>`;
-      stackStage.appendChild(card);
-      return card;
-    });
-    renderStack(activeIdx, false);
+    if (animate && slideshowImg) {
+      slideshowImg.classList.add('fade-out');
+      setTimeout(() => {
+        slideshowImg.src = imageData[activeIdx].src;
+        slideshowImg.classList.remove('fade-out');
+      }, 200);
+    } else if (slideshowImg) {
+      slideshowImg.src = imageData[activeIdx].src;
+    }
   }
 
-  /* ---- Position every card relative to the active index ---- */
-  function renderStack(idx, animate) {
-    activeIdx = ((idx % imageData.length) + imageData.length) % imageData.length;
-    if (stackCurrent) stackCurrent.textContent = activeIdx + 1;
+  function startTimer() {
+    stopTimer();
+    if (isPaused) return;
 
-    stackCards.forEach((card, i) => {
-      const offset = i - activeIdx;
-      const absOff = Math.abs(offset);
-
-      // Only render visible window (active ± 4)
-      const visible = absOff <= 4;
-      card.style.display = visible ? 'block' : 'none';
-      if (!visible) return;
-
-      const isActive = offset === 0;
-      const side     = offset > 0 ? 1 : -1;
-
-      // Layering
-      card.style.zIndex = 50 - absOff;
-
-      // 3-D fan spread
-      const translateX = offset * 52;
-      const translateY = absOff * 12;
-      const rotate     = offset * 6;
-      const scale      = isActive ? 1 : Math.max(0.72, 1 - absOff * 0.1);
-      const opacity    = isActive ? 1 : Math.max(0.18, 1 - absOff * 0.22);
-      const blur       = isActive ? 0 : absOff * 1.5;
-
-      if (animate) {
-        card.style.transition = 'transform 0.55s cubic-bezier(0.4,0,0.2,1), opacity 0.45s ease, filter 0.45s ease';
-      } else {
-        card.style.transition = 'none';
-      }
-
-      card.style.transform  = `translateX(${translateX}px) translateY(${translateY}px) rotate(${rotate}deg) scale(${scale})`;
-      card.style.opacity    = opacity;
-      card.style.filter     = `blur(${blur}px)`;
-      card.style.pointerEvents = isActive ? 'auto' : 'none';
-    });
+    timerId = setTimeout(() => {
+      goNext();
+    }, 3000); // 3 seconds cycle
   }
 
-  /* ---- Navigate ---- */
+  function stopTimer() {
+    if (timerId) {
+      clearTimeout(timerId);
+      timerId = null;
+    }
+  }
+
   function goNext() {
-    if (isAnimating) return;
-    isAnimating = true;
-    renderStack(activeIdx + 1, true);
-    setTimeout(() => { isAnimating = false; }, 600);
+    showSlide(activeIdx + 1);
+    startTimer();
   }
 
   function goPrev() {
-    if (isAnimating) return;
-    isAnimating = true;
-    renderStack(activeIdx - 1, true);
-    setTimeout(() => { isAnimating = false; }, 600);
+    showSlide(activeIdx - 1);
+    startTimer();
   }
 
-  /* ---- Open / Close ---- */
-  function openStackView() {
-    buildStackCards();
-    stackView.classList.add('active');
-    stackView.setAttribute('aria-hidden', 'false');
-    galleryContainer.classList.add('stack-hidden');
-    // hide dots
+  function togglePlayPause() {
+    isPaused = !isPaused;
+    if (isPaused) {
+      stopTimer();
+    } else {
+      startTimer();
+    }
+  }
+
+  function openSlideshow() {
+    activeIdx = 0;
+    isPaused = false;
+    
+    slideshowView.classList.add('active');
+    slideshowView.setAttribute('aria-hidden', 'false');
+    if (galleryContainer) galleryContainer.classList.add('slideshow-active');
+    document.body.classList.add('slideshow-open'); // lock body scroll
+
+    // Hide mobile swipe dots
     const dots = document.querySelector('.carousel-dots');
     if (dots) dots.style.visibility = 'hidden';
     viewModeBtn.style.display = 'none';
+
+    showSlide(activeIdx, false);
+    startTimer();
+
+    // Ensure music is playing
+    if (bgMusic && bgMusic.paused) {
+      bgMusic.play().then(() => {
+        if (musicToggleBtn) musicToggleBtn.classList.add('playing');
+      }).catch(err => console.log('Music play failed:', err));
+    }
   }
 
-  function closeStackView() {
-    stackView.classList.remove('active');
-    stackView.setAttribute('aria-hidden', 'true');
-    galleryContainer.classList.remove('stack-hidden');
+  function closeSlideshow() {
+    stopTimer();
+    slideshowView.classList.remove('active');
+    slideshowView.setAttribute('aria-hidden', 'true');
+    if (galleryContainer) galleryContainer.classList.remove('slideshow-active');
+    document.body.classList.remove('slideshow-open'); // unlock body scroll
+
     const dots = document.querySelector('.carousel-dots');
     if (dots) dots.style.visibility = '';
     viewModeBtn.style.display = '';
   }
 
   /* ---- Event listeners ---- */
-  viewModeBtn.addEventListener('click', openStackView);
-  if (stackClose)   stackClose.addEventListener('click', closeStackView);
-  if (stackNextBtn) stackNextBtn.addEventListener('click', goNext);
-  if (stackPrevBtn) stackPrevBtn.addEventListener('click', goPrev);
-
-  // Click active card → open lightbox
-  stackStage.addEventListener('click', (e) => {
-    const card = e.target.closest('.stack-card');
-    if (!card) return;
-    const i = stackCards.indexOf(card);
-    if (i === activeIdx) openLightbox(activeIdx);
-    else if (i > activeIdx) goNext();
-    else goPrev();
+  viewModeBtn.addEventListener('click', openSlideshow);
+  
+  // Click on background closes slideshow (desktop mouse click)
+  slideshowView.addEventListener('click', (e) => {
+    if (e.pointerType !== 'touch') {
+      closeSlideshow();
+    }
   });
 
-  // Keyboard (stack is open)
+  // Keyboard navigation
   window.addEventListener('keydown', (e) => {
-    if (!stackView.classList.contains('active')) return;
-    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') goNext();
-    if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   goPrev();
-    if (e.key === 'Escape') closeStackView();
+    if (!slideshowView.classList.contains('active')) return;
+    
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+      goNext();
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      goPrev();
+    } else if (e.key === ' ') {
+      e.preventDefault(); // Prevent page scroll
+      togglePlayPause();
+    } else if (e.key === 'Escape') {
+      closeSlideshow();
+    }
   });
 
-  // Touch / swipe support
+  // Touch swipe and tap handling for mobile devices (resolving double-taps/swipe conflicts)
   let touchStartX = 0;
-  stackView.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
-  stackView.addEventListener('touchend', e => {
-    const dx = e.changedTouches[0].clientX - touchStartX;
-    if (Math.abs(dx) < 40) return;
-    if (dx < 0) goNext(); else goPrev();
-  });
+  let touchStartY = 0;
+  let touchStartTime = 0;
 
-  // Re-sync captions when language changes
-  const origSetLanguage = window.__setLanguage__;
-  // Hook into language switch to rebuild captions
-  document.getElementById('lang-switch-btn').addEventListener('click', () => {
-    setTimeout(() => {
-      if (stackView.classList.contains('active')) buildStackCards();
-    }, 50);
+  slideshowView.addEventListener('touchstart', e => { 
+    touchStartX = e.touches[0].clientX; 
+    touchStartY = e.touches[0].clientY;
+    touchStartTime = Date.now();
+  }, { passive: true });
+  
+  slideshowView.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    const dy = e.changedTouches[0].clientY - touchStartY;
+    const dt = Date.now() - touchStartTime;
+
+    // Detect swipe (dx > 40px, low vertical shift)
+    if (Math.abs(dx) > 40 && Math.abs(dy) < 100) {
+      e.stopPropagation();
+      if (dx < 0) goNext(); else goPrev();
+      return;
+    }
+
+    // Detect single quick tap
+    if (Math.abs(dx) < 10 && Math.abs(dy) < 10 && dt < 300) {
+      closeSlideshow();
+    }
   });
 })();
 
