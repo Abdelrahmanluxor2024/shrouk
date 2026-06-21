@@ -103,6 +103,8 @@ const navLinks = document.querySelectorAll('.nav-link');
 const backgroundVideo = document.getElementById('hero-bg-video');
 const bgMusic = document.getElementById('bg-music');
 const musicToggleBtn = document.getElementById('music-toggle-btn');
+const splashOverlay = document.getElementById('splash-overlay');
+const enterBtn = document.getElementById('enter-btn');
 
 // Modals
 const videoModal = document.getElementById('video-modal');
@@ -397,53 +399,40 @@ shareCopyBtn.addEventListener('click', () => {
 });
 
 // --------------------------------------------------------------------------
-// 8. Background Music Control
+// 8. Splash Screen Entry & Background Music Control
 // --------------------------------------------------------------------------
-function attemptAutoplay() {
-  if (!bgMusic) return;
-  
-  // Attempt playing audio directly
-  bgMusic.play().then(() => {
-    musicToggleBtn.classList.add('playing');
-  }).catch(() => {
-    console.log("Autoplay blocked. Registering interaction listeners.");
-    
-    // Setup event listeners for first interaction
-    const playOnInteraction = () => {
+
+// Enter Experience button — triggered by real user gesture so music works on mobile
+if (enterBtn && splashOverlay) {
+  enterBtn.addEventListener('click', () => {
+    // 1. Play music immediately inside the user-gesture callback (works on iOS/Android)
+    if (bgMusic) {
       bgMusic.play().then(() => {
-        musicToggleBtn.classList.add('playing');
-      }).catch(() => {});
-      
-      // Remove listeners immediately
-      document.removeEventListener('click', playOnInteraction);
-      document.removeEventListener('scroll', playOnInteraction);
-      document.removeEventListener('touchstart', playOnInteraction);
-    };
-    
-    document.addEventListener('click', playOnInteraction);
-    document.addEventListener('scroll', playOnInteraction);
-    document.addEventListener('touchstart', playOnInteraction);
+        if (musicToggleBtn) musicToggleBtn.classList.add('playing');
+      }).catch(err => console.log('Music play failed:', err));
+    }
+
+    // 2. Fade out and hide splash overlay
+    splashOverlay.classList.add('fade-out');
+
+    // 3. After transition completes, remove from DOM so it doesn't block clicks
+    splashOverlay.addEventListener('transitionend', () => {
+      splashOverlay.style.display = 'none';
+    }, { once: true });
   });
 }
 
-// Toggle play/pause state when button is clicked
+// Music toggle button — play / pause
 if (musicToggleBtn && bgMusic) {
   musicToggleBtn.addEventListener('click', (e) => {
     e.stopPropagation();
     if (bgMusic.paused) {
       bgMusic.play().then(() => {
         musicToggleBtn.classList.add('playing');
-      }).catch(err => console.log("Playback failed: ", err));
+      }).catch(err => console.log('Playback failed:', err));
     } else {
       bgMusic.pause();
       musicToggleBtn.classList.remove('playing');
     }
   });
-  
-  // Run autoplay check when page is ready
-  if (document.readyState === 'complete') {
-    attemptAutoplay();
-  } else {
-    window.addEventListener('load', attemptAutoplay);
-  }
 }
