@@ -237,6 +237,127 @@ galleryItems.forEach(item => {
 });
 
 // --------------------------------------------------------------------------
+// Mobile Auto-Carousel (scrolls every 3 seconds on touch devices)
+// --------------------------------------------------------------------------
+(function initMobileCarousel() {
+  const galleryContainer = document.getElementById('gallery-container');
+  if (!galleryContainer || galleryItems.length === 0) return;
+
+  // Only run on mobile widths
+  function isMobile() {
+    return window.innerWidth <= 768;
+  }
+
+  let currentCardIndex = 0;
+  let autoScrollTimer = null;
+  let isUserInteracting = false;
+  let resumeTimer = null;
+
+  // Create dot indicators container
+  const dotsWrapper = document.createElement('div');
+  dotsWrapper.className = 'carousel-dots';
+  galleryContainer.parentElement.insertBefore(dotsWrapper, galleryContainer.nextSibling);
+
+  // Build dots
+  function buildDots() {
+    dotsWrapper.innerHTML = '';
+    if (!isMobile()) {
+      dotsWrapper.style.display = 'none';
+      return;
+    }
+    dotsWrapper.style.display = 'flex';
+    galleryItems.forEach((_, i) => {
+      const dot = document.createElement('span');
+      dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+      dot.addEventListener('click', () => scrollToCard(i));
+      dotsWrapper.appendChild(dot);
+    });
+  }
+
+  function updateDots(index) {
+    const dots = dotsWrapper.querySelectorAll('.carousel-dot');
+    dots.forEach((d, i) => d.classList.toggle('active', i === index));
+  }
+
+  // Scroll to a specific card smoothly
+  function scrollToCard(index) {
+    if (!isMobile()) return;
+    const card = galleryItems[index];
+    if (!card) return;
+    const containerLeft = galleryContainer.getBoundingClientRect().left;
+    const cardLeft = card.getBoundingClientRect().left;
+    const scrollOffset = cardLeft - containerLeft - (galleryContainer.offsetWidth - card.offsetWidth) / 2;
+    galleryContainer.scrollBy({ left: scrollOffset, behavior: 'smooth' });
+    currentCardIndex = index;
+    updateDots(index);
+  }
+
+  // Advance to next card
+  function nextCard() {
+    if (!isMobile() || isUserInteracting) return;
+    const next = (currentCardIndex + 1) % galleryItems.length;
+    scrollToCard(next);
+  }
+
+  // Start / stop the timer
+  function startAutoScroll() {
+    if (!isMobile()) return;
+    stopAutoScroll();
+    autoScrollTimer = setInterval(nextCard, 3000);
+  }
+
+  function stopAutoScroll() {
+    if (autoScrollTimer) {
+      clearInterval(autoScrollTimer);
+      autoScrollTimer = null;
+    }
+  }
+
+  // Pause on touch, resume after 5s of no interaction
+  galleryContainer.addEventListener('touchstart', () => {
+    if (!isMobile()) return;
+    isUserInteracting = true;
+    stopAutoScroll();
+    clearTimeout(resumeTimer);
+  }, { passive: true });
+
+  galleryContainer.addEventListener('touchend', () => {
+    if (!isMobile()) return;
+    clearTimeout(resumeTimer);
+    resumeTimer = setTimeout(() => {
+      isUserInteracting = false;
+      // Detect which card is most visible after swipe
+      let closest = 0;
+      let minDist = Infinity;
+      const containerCenter = galleryContainer.scrollLeft + galleryContainer.offsetWidth / 2;
+      galleryItems.forEach((item, i) => {
+        const cardCenter = item.offsetLeft + item.offsetWidth / 2;
+        const dist = Math.abs(cardCenter - containerCenter);
+        if (dist < minDist) { minDist = dist; closest = i; }
+      });
+      currentCardIndex = closest;
+      updateDots(closest);
+      startAutoScroll();
+    }, 5000);
+  }, { passive: true });
+
+  // Re-init on resize
+  window.addEventListener('resize', () => {
+    buildDots();
+    if (isMobile()) {
+      startAutoScroll();
+    } else {
+      stopAutoScroll();
+    }
+  });
+
+  // Init
+  buildDots();
+  if (isMobile()) startAutoScroll();
+})();
+
+
+// --------------------------------------------------------------------------
 // 5. Cinematic Video Modal Functions
 // --------------------------------------------------------------------------
 const modalVideoPlayer = document.getElementById('modal-video-player');

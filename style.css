@@ -1480,3 +1480,44 @@ body.rtl-mode .enter-btn {
   }
 }
 
+/* ==========================================================================
+   Mobile Carousel Dot Indicators
+   ========================================================================== */
+.carousel-dots {
+  display: none; /* shown only on mobile via JS */
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 0 8px;
+  flex-wrap: wrap;
+  max-width: 260px;
+  margin: 0 auto;
+}
+
+.carousel-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: rgba(201, 169, 110, 0.25);
+  border: 1px solid rgba(201, 169, 110, 0.4);
+  cursor: pointer;
+  transition: all 0.4s ease;
+  flex-shrink: 0;
+}
+
+.carousel-dot.active {
+  background-color: var(--primary-gold);
+  border-color: var(--primary-gold);
+  transform: scale(1.35);
+  box-shadow: 0 0 8px rgba(201, 169, 110, 0.6);
+  animation: dotPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes dotPulse {
+  0%, 100% {
+    box-shadow: 0 0 5px rgba(201, 169, 110, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 14px rgba(201, 169, 110, 0.8);
+  }
+}
