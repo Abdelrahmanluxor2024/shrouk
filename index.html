@@ -181,6 +181,30 @@
     <div class="section-header">
       <h2 class="gallery-title" data-key="gallery-header">The Royal Portfolio</h2>
       <p class="gallery-subtitle" data-key="gallery-subtitle">A collection of moments captured in high definition</p>
+
+      <!-- View Mode Toggle Button -->
+      <button id="view-mode-btn" class="view-mode-btn" aria-label="Switch Gallery View">
+        <i class="fa-solid fa-layer-group"></i>
+        <span data-key="btn-stack-view">Royal Stack View</span>
+      </button>
+    </div>
+
+    <!-- Royal Stack View Overlay (hidden by default) -->
+    <div id="stack-view" class="stack-view" aria-hidden="true">
+      <div class="stack-stage">
+        <!-- Cards rendered by JS -->
+      </div>
+      <div class="stack-controls">
+        <button class="stack-nav-btn" id="stack-prev"><i class="fa-solid fa-chevron-left"></i></button>
+        <div class="stack-counter">
+          <span id="stack-current">1</span> / <span id="stack-total">16</span>
+        </div>
+        <button class="stack-nav-btn" id="stack-next"><i class="fa-solid fa-chevron-right"></i></button>
+      </div>
+      <button class="stack-close-btn" id="stack-close">
+        <i class="fa-solid fa-grid-2"></i>
+        <span data-key="btn-grid-view">Grid View</span>
+      </button>
     </div>
 
     <!-- Gallery Container: Asymmetric Masonry layout on Desktop / Swipeable horizontal carousel on Mobile -->

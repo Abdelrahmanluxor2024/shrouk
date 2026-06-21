@@ -24,6 +24,8 @@ const translations = {
     "cat-moment": "Moment",
     "cat-candid": "Candid",
     "btn-share-moment": "Share Moment",
+    "btn-stack-view": "Royal Stack View",
+    "btn-grid-view": "Grid View",
     "footer-copyright": "© 2026 Shrouk Gallery. Crafted with Excellence.",
     "share-title": "Share the Moment",
     "share-desc": "Select a platform to share this royal graduation gallery.",
@@ -65,6 +67,8 @@ const translations = {
     "cat-moment": "لحظة تاريخية",
     "cat-candid": "لقطة عفوية",
     "btn-share-moment": "مشاركة اللحظة",
+    "btn-stack-view": "عرض التوضيب الملكي",
+    "btn-grid-view": "عرض الشبكة",
     "footer-copyright": "© 2026 معرض شروق. صُمم بامتياز وفخامة.",
     "share-title": "شارك هذه اللحظة",
     "share-desc": "اختر المنصة المناسبة لمشاركة هذا المعرض الملكي للتخرج مع عائلتك وأصدقائك.",
@@ -557,3 +561,170 @@ if (musicToggleBtn && bgMusic) {
     }
   });
 }
+
+// --------------------------------------------------------------------------
+// 9. Royal Stack View
+// --------------------------------------------------------------------------
+(function initStackView() {
+  const viewModeBtn  = document.getElementById('view-mode-btn');
+  const stackView    = document.getElementById('stack-view');
+  const stackStage   = stackView ? stackView.querySelector('.stack-stage') : null;
+  const stackClose   = document.getElementById('stack-close');
+  const stackPrevBtn = document.getElementById('stack-prev');
+  const stackNextBtn = document.getElementById('stack-next');
+  const stackCurrent = document.getElementById('stack-current');
+  const stackTotal   = document.getElementById('stack-total');
+  const galleryContainer = document.getElementById('gallery-container');
+
+  if (!viewModeBtn || !stackView || !stackStage) return;
+
+  // Collect all image sources + titles from the gallery items
+  const imageData = galleryItems.map(item => ({
+    src:      item.getAttribute('data-src'),
+    catKey:   item.querySelector('.item-category').getAttribute('data-key'),
+    titleKey: item.querySelector('.item-title').getAttribute('data-key'),
+  }));
+
+  if (stackTotal) stackTotal.textContent = imageData.length;
+
+  let activeIdx  = 0;
+  let isAnimating = false;
+  let stackCards  = [];
+
+  /* ---- Build stack cards ---- */
+  function buildStackCards() {
+    stackStage.innerHTML = '';
+    stackCards = imageData.map((data, i) => {
+      const card = document.createElement('div');
+      card.className = 'stack-card';
+      card.innerHTML = `<img src="${data.src}" alt="" draggable="false">
+        <div class="stack-card-caption">
+          <span class="stack-cat">${translations[currentLang][data.catKey] || ''}</span>
+          <p class="stack-title-text">${translations[currentLang][data.titleKey] || ''}</p>
+        </div>`;
+      stackStage.appendChild(card);
+      return card;
+    });
+    renderStack(activeIdx, false);
+  }
+
+  /* ---- Position every card relative to the active index ---- */
+  function renderStack(idx, animate) {
+    activeIdx = ((idx % imageData.length) + imageData.length) % imageData.length;
+    if (stackCurrent) stackCurrent.textContent = activeIdx + 1;
+
+    stackCards.forEach((card, i) => {
+      const offset = i - activeIdx;
+      const absOff = Math.abs(offset);
+
+      // Only render visible window (active ± 4)
+      const visible = absOff <= 4;
+      card.style.display = visible ? 'block' : 'none';
+      if (!visible) return;
+
+      const isActive = offset === 0;
+      const side     = offset > 0 ? 1 : -1;
+
+      // Layering
+      card.style.zIndex = 50 - absOff;
+
+      // 3-D fan spread
+      const translateX = offset * 52;
+      const translateY = absOff * 12;
+      const rotate     = offset * 6;
+      const scale      = isActive ? 1 : Math.max(0.72, 1 - absOff * 0.1);
+      const opacity    = isActive ? 1 : Math.max(0.18, 1 - absOff * 0.22);
+      const blur       = isActive ? 0 : absOff * 1.5;
+
+      if (animate) {
+        card.style.transition = 'transform 0.55s cubic-bezier(0.4,0,0.2,1), opacity 0.45s ease, filter 0.45s ease';
+      } else {
+        card.style.transition = 'none';
+      }
+
+      card.style.transform  = `translateX(${translateX}px) translateY(${translateY}px) rotate(${rotate}deg) scale(${scale})`;
+      card.style.opacity    = opacity;
+      card.style.filter     = `blur(${blur}px)`;
+      card.style.pointerEvents = isActive ? 'auto' : 'none';
+    });
+  }
+
+  /* ---- Navigate ---- */
+  function goNext() {
+    if (isAnimating) return;
+    isAnimating = true;
+    renderStack(activeIdx + 1, true);
+    setTimeout(() => { isAnimating = false; }, 600);
+  }
+
+  function goPrev() {
+    if (isAnimating) return;
+    isAnimating = true;
+    renderStack(activeIdx - 1, true);
+    setTimeout(() => { isAnimating = false; }, 600);
+  }
+
+  /* ---- Open / Close ---- */
+  function openStackView() {
+    buildStackCards();
+    stackView.classList.add('active');
+    stackView.setAttribute('aria-hidden', 'false');
+    galleryContainer.classList.add('stack-hidden');
+    // hide dots
+    const dots = document.querySelector('.carousel-dots');
+    if (dots) dots.style.visibility = 'hidden';
+    viewModeBtn.style.display = 'none';
+  }
+
+  function closeStackView() {
+    stackView.classList.remove('active');
+    stackView.setAttribute('aria-hidden', 'true');
+    galleryContainer.classList.remove('stack-hidden');
+    const dots = document.querySelector('.carousel-dots');
+    if (dots) dots.style.visibility = '';
+    viewModeBtn.style.display = '';
+  }
+
+  /* ---- Event listeners ---- */
+  viewModeBtn.addEventListener('click', openStackView);
+  if (stackClose)   stackClose.addEventListener('click', closeStackView);
+  if (stackNextBtn) stackNextBtn.addEventListener('click', goNext);
+  if (stackPrevBtn) stackPrevBtn.addEventListener('click', goPrev);
+
+  // Click active card → open lightbox
+  stackStage.addEventListener('click', (e) => {
+    const card = e.target.closest('.stack-card');
+    if (!card) return;
+    const i = stackCards.indexOf(card);
+    if (i === activeIdx) openLightbox(activeIdx);
+    else if (i > activeIdx) goNext();
+    else goPrev();
+  });
+
+  // Keyboard (stack is open)
+  window.addEventListener('keydown', (e) => {
+    if (!stackView.classList.contains('active')) return;
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') goNext();
+    if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   goPrev();
+    if (e.key === 'Escape') closeStackView();
+  });
+
+  // Touch / swipe support
+  let touchStartX = 0;
+  stackView.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+  stackView.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(dx) < 40) return;
+    if (dx < 0) goNext(); else goPrev();
+  });
+
+  // Re-sync captions when language changes
+  const origSetLanguage = window.__setLanguage__;
+  // Hook into language switch to rebuild captions
+  document.getElementById('lang-switch-btn').addEventListener('click', () => {
+    setTimeout(() => {
+      if (stackView.classList.contains('active')) buildStackCards();
+    }, 50);
+  });
+})();
+
