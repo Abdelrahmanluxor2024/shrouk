@@ -48,7 +48,15 @@ const translations = {
     "pic-13-title": "The Royal Portrait IV",
     "pic-14-title": "The Royal Portrait V",
     "pic-15-title": "The Royal Portrait VI",
-    "pic-16-title": "The Royal Portrait VII"
+    "pic-16-title": "The Royal Portrait VII",
+    "pic-17-title": "The Royal Portrait VIII",
+    "pic-18-title": "The Royal Portrait IX",
+    "pic-19-title": "The Royal Portrait X",
+    "pic-20-title": "The Royal Portrait XI",
+    "pic-21-title": "The Royal Portrait XII",
+    "pic-22-title": "The Royal Portrait XIII",
+    "pic-23-title": "The Royal Portrait XIV",
+    "pic-24-title": "The Royal Portrait XV"
   },
   ar: {
     "logo": "معرض شروق",
@@ -91,7 +99,15 @@ const translations = {
     "pic-13-title": "البورتريه الملكي الرابع",
     "pic-14-title": "البورتريه الملكي الخامس",
     "pic-15-title": "البورتريه الملكي السادس",
-    "pic-16-title": "البورتريه الملكي السابع"
+    "pic-16-title": "البورتريه الملكي السابع",
+    "pic-17-title": "البورتريه الملكي الثامن",
+    "pic-18-title": "البورتريه الملكي التاسع",
+    "pic-19-title": "البورتريه الملكي العاشر",
+    "pic-20-title": "البورتريه الملكي الحادي عشر",
+    "pic-21-title": "البورتريه الملكي الثاني عشر",
+    "pic-22-title": "البورتريه الملكي الثالث عشر",
+    "pic-23-title": "البورتريه الملكي الرابع عشر",
+    "pic-24-title": "البورتريه الملكي الخامس عشر"
   }
 };
 
