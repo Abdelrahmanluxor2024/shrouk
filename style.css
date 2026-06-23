@@ -1637,6 +1637,7 @@ body.slideshow-open {
   gap: 12px;
   box-shadow: 0 4px 15px rgba(201, 169, 110, 0.1);
   transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  text-decoration: none;
 }
 
 body.rtl-mode .view-all-btn {
@@ -1661,7 +1662,7 @@ body.rtl-mode .view-all-btn {
   transition: transform 0.4s ease;
 }
 
-.view-all-btn.expanded i {
-  transform: rotate(180deg);
+.view-all-btn:hover i {
+  transform: scale(1.2);
 }
 
