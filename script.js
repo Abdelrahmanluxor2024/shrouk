@@ -26,37 +26,39 @@ const translations = {
     "btn-share-moment": "Share Moment",
     "btn-stack-view": "Royal Stack View",
     "btn-grid-view": "Grid View",
+    "btn-view-all": "View All Images",
+    "btn-view-less": "Show Less",
     "footer-copyright": "© 2026 Shrouk Gallery. Crafted with Excellence.",
     "share-title": "Share the Moment",
     "share-desc": "Select a platform to share this royal graduation gallery.",
     "share-copy-btn": "Copy Link",
     "toast-copied": "Link copied to clipboard!",
     
-    // Pictures
+    // Pictures (Sorted by Group)
     "pic-1-title": "The Sovereign Smile",
     "pic-2-title": "Reflective Triumph",
     "pic-3-title": "Academic Honor",
     "pic-4-title": "Golden Horizon",
     "pic-5-title": "Prestigious Stature",
-    "pic-6-title": "The Crown of Success",
-    "pic-7-title": "Gaze of Pride",
-    "pic-8-title": "Empowered Vision",
-    "pic-9-title": "Elegance Unveiled",
-    "pic-10-title": "The Royal Portrait I",
-    "pic-11-title": "The Royal Portrait II",
-    "pic-12-title": "The Royal Portrait III",
-    "pic-13-title": "The Royal Portrait IV",
-    "pic-14-title": "The Royal Portrait V",
-    "pic-15-title": "The Royal Portrait VI",
-    "pic-16-title": "The Royal Portrait VII",
-    "pic-17-title": "The Royal Portrait VIII",
-    "pic-18-title": "The Royal Portrait IX",
-    "pic-19-title": "The Royal Portrait X",
-    "pic-20-title": "The Royal Portrait XI",
-    "pic-21-title": "The Royal Portrait XII",
-    "pic-22-title": "The Royal Portrait XIII",
-    "pic-23-title": "The Royal Portrait XIV",
-    "pic-24-title": "The Royal Portrait XV"
+    "pic-6-title": "Elegance Unveiled",
+    "pic-7-title": "The Royal Portrait I",
+    "pic-8-title": "The Royal Portrait II",
+    "pic-9-title": "The Royal Portrait III",
+    "pic-10-title": "The Royal Portrait IV",
+    "pic-11-title": "The Royal Portrait V",
+    "pic-12-title": "The Royal Portrait VI",
+    "pic-13-title": "The Royal Portrait VII",
+    "pic-14-title": "Shared Joy",
+    "pic-15-title": "A Mother's Pride",
+    "pic-16-title": "Cherished Bond",
+    "pic-17-title": "The Crown of Success",
+    "pic-18-title": "Gaze of Pride",
+    "pic-19-title": "Empowered Vision",
+    "pic-20-title": "The Graduation Banquet",
+    "pic-21-title": "Imperial Milestone",
+    "pic-22-title": "Scholarly Legacy",
+    "pic-23-title": "The Royal Seat",
+    "pic-24-title": "The Grand Portrait"
   },
   ar: {
     "logo": "معرض شروق",
@@ -77,37 +79,39 @@ const translations = {
     "btn-share-moment": "مشاركة اللحظة",
     "btn-stack-view": "عرض التوضيب الملكي",
     "btn-grid-view": "عرض الشبكة",
+    "btn-view-all": "شاهد جميع الصور",
+    "btn-view-less": "عرض أقل",
     "footer-copyright": "© 2026 معرض شروق. صُمم بامتياز وفخامة.",
     "share-title": "شارك هذه اللحظة",
     "share-desc": "اختر المنصة المناسبة لمشاركة هذا المعرض الملكي للتخرج مع عائلتك وأصدقائك.",
     "share-copy-btn": "نسخ الرابط",
     "toast-copied": "تم نسخ رابط المعرض إلى الحافظة بنجاح!",
     
-    // Pictures
+    // Pictures (Sorted by Group)
     "pic-1-title": "الابتسامة السيادية",
     "pic-2-title": "تأمل الانتصار",
     "pic-3-title": "وسام الأكاديمية",
     "pic-4-title": "الأفق الذهبي",
     "pic-5-title": "الهيبة والوقار",
-    "pic-6-title": "تاج النجاح والتفوق",
-    "pic-7-title": "نظرة الفخر الطموحة",
-    "pic-8-title": "الرؤية الممكنة",
-    "pic-9-title": "الأناقة الملكية",
-    "pic-10-title": "البورتريه الملكي الأول",
-    "pic-11-title": "البورتريه الملكي الثاني",
-    "pic-12-title": "البورتريه الملكي الثالث",
-    "pic-13-title": "البورتريه الملكي الرابع",
-    "pic-14-title": "البورتريه الملكي الخامس",
-    "pic-15-title": "البورتريه الملكي السادس",
-    "pic-16-title": "البورتريه الملكي السابع",
-    "pic-17-title": "البورتريه الملكي الثامن",
-    "pic-18-title": "البورتريه الملكي التاسع",
-    "pic-19-title": "البورتريه الملكي العاشر",
-    "pic-20-title": "البورتريه الملكي الحادي عشر",
-    "pic-21-title": "البورتريه الملكي الثاني عشر",
-    "pic-22-title": "البورتريه الملكي الثالث عشر",
-    "pic-23-title": "البورتريه الملكي الرابع عشر",
-    "pic-24-title": "البورتريه الملكي الخامس عشر"
+    "pic-6-title": "الأناقة الملكية",
+    "pic-7-title": "البورتريه الملكي الأول",
+    "pic-8-title": "البورتريه الملكي الثاني",
+    "pic-9-title": "البورتريه الملكي الثالث",
+    "pic-10-title": "البورتريه الملكي الرابع",
+    "pic-11-title": "البورتريه الملكي الخامس",
+    "pic-12-title": "البورتريه الملكي السادس",
+    "pic-13-title": "البورتريه الملكي السابع",
+    "pic-14-title": "فرحة مشتركة مع الأم",
+    "pic-15-title": "فخر الأمومة",
+    "pic-16-title": "رابطة لا تنفصم",
+    "pic-17-title": "تاج النجاح والتفوق",
+    "pic-18-title": "نظرة الفخر الطموحة",
+    "pic-19-title": "الرؤية الممكنة",
+    "pic-20-title": "مأدبة التخرج العائلية",
+    "pic-21-title": "الحدث الإمبراطوري",
+    "pic-22-title": "الإرث العلمي",
+    "pic-23-title": "المقعد الملكي",
+    "pic-24-title": "البورتريه الكبير"
   }
 };
 
@@ -268,6 +272,11 @@ galleryItems.forEach(item => {
     return window.innerWidth <= 768;
   }
 
+  // Get currently visible gallery items
+  function getVisibleItems() {
+    return galleryItems.filter(item => !item.classList.contains('hidden-item'));
+  }
+
   let currentCardIndex = 0;
   let autoScrollTimer = null;
   let isUserInteracting = false;
@@ -286,7 +295,8 @@ galleryItems.forEach(item => {
       return;
     }
     dotsWrapper.style.display = 'flex';
-    galleryItems.forEach((_, i) => {
+    const visibleItems = getVisibleItems();
+    visibleItems.forEach((_, i) => {
       const dot = document.createElement('span');
       dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
       dot.addEventListener('click', () => scrollToCard(i));
@@ -302,7 +312,8 @@ galleryItems.forEach(item => {
   // Scroll to a specific card smoothly
   function scrollToCard(index) {
     if (!isMobile()) return;
-    const card = galleryItems[index];
+    const visibleItems = getVisibleItems();
+    const card = visibleItems[index];
     if (!card) return;
     const containerLeft = galleryContainer.getBoundingClientRect().left;
     const cardLeft = card.getBoundingClientRect().left;
@@ -315,7 +326,9 @@ galleryItems.forEach(item => {
   // Advance to next card
   function nextCard() {
     if (!isMobile() || isUserInteracting) return;
-    const next = (currentCardIndex + 1) % galleryItems.length;
+    const visibleItems = getVisibleItems();
+    if (visibleItems.length === 0) return;
+    const next = (currentCardIndex + 1) % visibleItems.length;
     scrollToCard(next);
   }
 
@@ -350,7 +363,8 @@ galleryItems.forEach(item => {
       let closest = 0;
       let minDist = Infinity;
       const containerCenter = galleryContainer.scrollLeft + galleryContainer.offsetWidth / 2;
-      galleryItems.forEach((item, i) => {
+      const visibleItems = getVisibleItems();
+      visibleItems.forEach((item, i) => {
         const cardCenter = item.offsetLeft + item.offsetWidth / 2;
         const dist = Math.abs(cardCenter - containerCenter);
         if (dist < minDist) { minDist = dist; closest = i; }
@@ -369,6 +383,13 @@ galleryItems.forEach(item => {
     } else {
       stopAutoScroll();
     }
+  });
+
+  // Re-build dots and scroll position when gallery visibility changes
+  window.addEventListener('gallery-updated', () => {
+    buildDots();
+    currentCardIndex = 0;
+    scrollToCard(0);
   });
 
   // Init
@@ -739,6 +760,63 @@ if (musicToggleBtn && bgMusic) {
     if (Math.abs(dx) < 10 && Math.abs(dy) < 10 && dt < 300) {
       closeSlideshow();
     }
+  });
+})();
+
+// --------------------------------------------------------------------------
+// 10. View All / Collapse Gallery Toggle
+// --------------------------------------------------------------------------
+(function initViewAllToggle() {
+  const viewAllBtn = document.getElementById('view-all-btn');
+  if (!viewAllBtn) return;
+
+  const viewAllSpan = viewAllBtn.querySelector('span');
+  const hiddenItems = Array.from(document.querySelectorAll('.gallery-item.hidden-item'));
+  let isExpanded = false;
+
+  viewAllBtn.addEventListener('click', () => {
+    isExpanded = !isExpanded;
+    
+    // Toggle hidden items visibility
+    hiddenItems.forEach(item => {
+      if (isExpanded) {
+        // Remove style display hidden and animate in
+        item.style.display = 'block'; // force display to allow transition
+        // Let masonry/grid calculate layout first, then fade in
+        setTimeout(() => {
+          item.classList.remove('hidden-item');
+          item.style.opacity = '1';
+          item.style.transform = 'translateY(0)';
+        }, 50);
+      } else {
+        item.classList.add('hidden-item');
+        item.style.opacity = '0';
+        item.style.transform = 'translateY(40px)';
+        // Reset display after transit finishes
+        setTimeout(() => {
+          if (!isExpanded) item.style.display = '';
+        }, 800);
+      }
+    });
+
+    // Update button text and class
+    viewAllBtn.classList.toggle('expanded', isExpanded);
+    if (isExpanded) {
+      viewAllSpan.setAttribute('data-key', 'btn-view-less');
+      viewAllSpan.textContent = translations[currentLang]['btn-view-less'];
+    } else {
+      viewAllSpan.setAttribute('data-key', 'btn-view-all');
+      viewAllSpan.textContent = translations[currentLang]['btn-view-all'];
+      
+      // Scroll smoothly back to top of gallery when collapsing
+      const gallerySec = document.getElementById('gallery');
+      if (gallerySec) {
+        gallerySec.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+
+    // Trigger update event for mobile carousel dots
+    window.dispatchEvent(new Event('gallery-updated'));
   });
 })();
 

@@ -1605,3 +1605,63 @@ body.slideshow-open {
   opacity: 0;
 }
 
+/* ==========================================================================
+   View All Images Button & Hidden Utility
+   ========================================================================== */
+.gallery-item.hidden-item {
+  display: none !important;
+}
+
+.view-all-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+  position: relative;
+  z-index: 10;
+}
+
+.view-all-btn {
+  background: transparent;
+  border: 1px solid var(--primary-gold);
+  color: var(--primary-gold);
+  padding: 16px 45px;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  border-radius: 40px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 4px 15px rgba(201, 169, 110, 0.1);
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+body.rtl-mode .view-all-btn {
+  letter-spacing: normal;
+  flex-direction: row-reverse;
+}
+
+.view-all-btn:hover {
+  background: linear-gradient(135deg, var(--primary-gold) 0%, #9A7B43 100%);
+  color: var(--secondary-black);
+  border-color: var(--accent-cream);
+  box-shadow: 0 10px 30px rgba(201, 169, 110, 0.35);
+  transform: translateY(-3px);
+}
+
+.view-all-btn:active {
+  transform: translateY(-1px);
+}
+
+.view-all-btn i {
+  font-size: 0.85rem;
+  transition: transform 0.4s ease;
+}
+
+.view-all-btn.expanded i {
+  transform: rotate(180deg);
+}
+
